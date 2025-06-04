@@ -1,0 +1,79 @@
+[project]
+name = retrosaga_dss_engine
+version = 0.1.0
+entry_point = src/main.c
+description = RetroSaga DSS Engine with Retos-Crypto and Audio Pipeline integration
+
+[build]
+pass_mode = multi
+experimental_mode = true
+strict_mode = true
+
+[threading]
+worker_count = 4
+queue_depth = 64
+stack_size_kb = 512
+enable_work_stealing = true
+
+[features]
+unicode_normalization = true
+isomorphic_reduction = true
+debug_symbols = true
+config_validation = true
+component_discovery = true
+runtime_test_hooks = true
+dss_architecture = true
+crypto_validation = true
+audio_pipeline = true
+midi_synthesis = true
+
+[components]
+audio = enabled
+render = enabled  
+scene = enabled
+input = enabled
+
+[dss_modules]
+retos_crypto = enabled
+midi_synth = enabled
+retrosaga_core = enabled
+
+[retrosaga_engine]
+target_fps = 60
+pixel_perfect = true
+audio_sample_rate = 44100
+max_texture_size = 1024
+crypto_compliance = "strict"
+audio_buffer_size = 1024
+midi_polyphony = 64
+
+[retos_crypto]
+schema_version = "1.0.0"
+validation_mode = "strict"
+primitive_verification = true
+semantic_versioning = true
+audit_trail = true
+
+[midi_synth]
+schema_version = "1.0.0"
+protocol_compliance = "midi_1_0"
+bit_scaling_support = true
+real_time_priority = true
+synthesis_modes = ["subtractive", "fm", "wavetable"]
+
+[audio_pipeline]
+input_modules = ["input_audio", "audio_entropy", "prng_module"]
+processing_modules = ["midi_processing", "bit_scaler", "effect_engine"]
+output_modules = ["waveform_generator", "sound_output"]
+validation_mode = "strict"
+entropy_validation = true
+
+[validation]
+frame_time_budget_ms = 16.67
+max_render_depth = 8
+max_cross_subsystem_calls = 5
+memory_pool_mb = 64
+crypto_primitive_validation = true
+dss_symbol_verification = true
+audio_latency_max_ms = 20.0
+midi_timing_precision_us = 100

@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MIDI-Synth DSS Protocol Schema with Bit Scaling",
+  "description": "MIDI 1.0/2.0 Specification message definitions with bit scaling support",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "midi_messages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/MidiMessage"
+      }
+    },
+    "synthesis_config": {
+      "$ref": "#/definitions/SynthesisConfiguration"
+    },
+    "bit_scaling_config": {
+      "$ref": "#/definitions/BitScalingConfiguration"
+    }
+  },
+  "definitions": {
+    "MidiMessage": {
+      "type": "object",
+      "required": ["status", "type", "description"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "pattern": "^[01]{8}$",
+          "description": "8-bit status byte (binary format)"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["channel_voice", "channel_mode", "system_common", "system_realtime"]
+        },
+        "description": {
+          "type": "string"
+        },
+        "data_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "real_time_priority": {
+          "type": "boolean",
+          "default": false
+        },
+        "bit_scaling_method": {
+          "type": "string",
+          "enum": ["min_center_max", "zero_extension"],
+          "default": "min_center_max"
+        }
+      }
+    },
+    "SynthesisConfiguration": {
+      "type": "object",
+      "properties": {
+        "sample_rate": {
+          "type": "integer",
+          "default": 44100
+        },
+        "buffer_size": {
+          "type": "integer", 
+          "default": 1024
+        },
+        "polyphony": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 128,
+          "default": 64
+        },
+        "synthesis_mode": {
+          "type": "string",
+          "enum": ["subtractive", "fm", "wavetable", "physical_modeling"],
+          "default": "subtractive"
+        },
+        "waveform_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["sine", "sawtooth", "square", "triangle", "noise"]
+          },
+          "default": ["sine", "sawtooth", "square", "triangle"]
+        }
+      }
+    },
+    "BitScalingConfiguration": {
+      "type": "object",
+      "properties": {
+        "supported_resolutions": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "enum": [7, 8, 14, 16, 32]
+          },
+          "default": [7, 14, 16, 32]
+        },
+        "default_scaling_method": {
+          "type": "string",
+          "enum": ["min_center_max", "zero_extension"],
+          "default": "min_center_max"
+        },
+        "precision_validation": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    }
+  }
+}
