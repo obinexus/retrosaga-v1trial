@@ -8,6 +8,8 @@
 #include <stdint.h>
 #include <math.h>
 #include "audio/bit_scaler.h"
+#include <string.h>
+#include <stdlib.h>
 
 // Power of 2 calculation using bit shift
 static uint32_t power_of_2(uint8_t exp) {

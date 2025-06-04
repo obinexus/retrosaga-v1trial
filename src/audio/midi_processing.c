@@ -10,6 +10,8 @@
 #include <math.h>
 #include "audio/midi_processing.h"
 #include "audio/bit_scaler.h"
+#include <string.h>
+#include <stdlib.h>
 
 typedef struct {
     bool initialized;

@@ -11,7 +11,8 @@
 #include <string.h>
 #include <unistd.h>
 #include "audio/retrosaga_audio.h"
-
+#include <string.h>
+#include <stdlib.h>
 // Include all audio module headers
 #include "audio/input_audio.h"
 #include "audio/audio_entropy.h"
