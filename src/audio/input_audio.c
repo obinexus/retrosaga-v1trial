@@ -7,7 +7,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "audio/input_audio.h"
-
+#include <string.h>
+#include <stdlib.h>
 typedef struct {
     bool initialized;
     uint32_t operations_count;
