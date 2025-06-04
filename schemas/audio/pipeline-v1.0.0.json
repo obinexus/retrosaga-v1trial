@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Audio Pipeline Schema",
+  "description": "Audio processing pipeline configuration",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "pipeline_config": {
+      "$ref": "#/definitions/PipelineConfiguration"
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/AudioModule"
+      }
+    }
+  },
+  "definitions": {
+    "PipelineConfiguration": {
+      "type": "object",
+      "properties": {
+        "sample_rate": {
+          "type": "integer",
+          "default": 44100
+        },
+        "buffer_size": {
+          "type": "integer",
+          "default": 1024
+        },
+        "bit_depth": {
+          "type": "integer",
+          "enum": [16, 24, 32],
+          "default": 16
+        },
+        "channels": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8,
+          "default": 2
+        },
+        "latency_target_ms": {
+          "type": "number",
+          "minimum": 1.0,
+          "maximum": 100.0,
+          "default": 20.0
+        }
+      }
+    },
+    "AudioModule": {
+      "type": "object",
+      "required": ["name", "type", "category"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["input", "processing", "output"]
+        },
+        "category": {
+          "type": "string",
+          "enum": ["audio_input", "entropy", "prng", "midi", "scaling", "effects", "waveform", "audio_output"]
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "parameters": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}
